@@ -30,7 +30,7 @@ docker pull ubuntu:22.04
 docker build --progress=plain -t ise:14.7-u2204 .
 ```
 
-The extract + `batchxsetup` layer can take 60+ minutes. Do not interrupt it.
+The extract + `batchxsetup` layer can take 30+ minutes. Do not interrupt it.
 
 ## Execution
 
