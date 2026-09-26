@@ -10,9 +10,12 @@ Instructions for programming a MIMAS V2 Spartan6 FPGA board, which requires ISE 
 
 ```
 ise147-docker
-    Dockerfile
+    Dockerfile   # to build the docker image
     entrypoint.sh
-    install_config.txt
+    install_config.txt   # ISE installation options, equivalent to manually input GUI options
+    ise.sh   # bash file to ease with execution
+    LICENSE   # license for this git repo
+    optional.txt   # optional Mimas V2 programming scripts
     README.md   # this file
     Xilinx_ISE_DS_Lin_14.7_1015_1.tar   # official Xilinx ISE package, not included here
 ```
@@ -48,6 +51,7 @@ xhost +local:docker
 docker run --rm -it \
   -e DISPLAY="$DISPLAY" \
   -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -v "$HOME/.ise-home:/root" \
   -v "$HOME/.Xilinx:/root/.Xilinx" \
   -v "$PWD:/work" \
   -e XILINXD_LICENSE_FILE=/root/.Xilinx/Xilinx.lic \
