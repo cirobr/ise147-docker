@@ -1,0 +1,25 @@
+### Optional: faster Linux firmware (two serial ports)
+
+These replace the factory PIC firmware. Only needed if you want a dedicated programmer port plus FPGA UART at 115200 without using the mode switch.
+
+- Firmware + `programmer.py`: https://github.com/jimmo/numato-mimasv2-pic-firmware
+- Packaged loader (`mimasv2-prog`): https://github.com/toptensoftware/MimasV2-Loader
+
+```
+git clone https://github.com/jimmo/numato-mimasv2-pic-firmware.git
+cd numato-mimasv2-pic-firmware
+python3 -m venv venv && . venv/bin/activate
+pip install pyserial xmodem
+python3 programmer.py --filename /path/to/design.bin
+```
+
+Or:
+
+```
+git clone https://github.com/toptensoftware/MimasV2-Loader.git
+cd MimasV2-Loader
+sudo ./install.sh
+mimasv2-prog --filename design.bin
+```
+
+If `lsusb` shows `04d8:003c`, the FWUP jumper is fitted and the PIC is in HID bootloader mode. That is only for updating PIC firmware with `mphidflash`, not for loading an FPGA bitstream.

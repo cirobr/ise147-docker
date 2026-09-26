@@ -11,9 +11,12 @@ ise147-docker
     Dockerfile
     entrypoint.sh
     install_config.txt
-    README   # this file
+    README.md   # this file
     Xilinx_ISE_DS_Lin_14.7_1015_1.tar   # official Xilinx ISE package, not included here
 ```
+
+The official ISE package can be downloaded from:
+https://www.amd.com/pt/support/downloads/adaptive-socs-and-fpgas/legacy-ise/v2012_4---14_7.html
 
 ## Build commands
 
@@ -22,7 +25,7 @@ docker pull ubuntu:22.04
 docker build --progress=plain -t ise:14.7-u2204 .
 ```
 
-The extract + `batchxsetup` layer can take 20–60+ minutes. Do not interrupt it.
+The extract + `batchxsetup` layer can take 60+ minutes. Do not interrupt it.
 
 ## Execution
 
@@ -78,40 +81,17 @@ ls /dev/ttyACM*
 
 Stock Numato firmware usually appears as `2a19:1002` and `/dev/ttyACM0`. Set the board CFG switch to USB/config mode before flashing.
 
-### Recommended: official Numato Python tool (stock PIC firmware)
+### Recommended: official Numato Python tool
 
 Repo: https://github.com/numato/samplecode  
 Path: `FPGA/MimasV2/tools/configuration/python/`
 
 ```
 pip install 'git+https://github.com/numato/samplecode/#egg=MimasV2&subdirectory=FPGA/MimasV2/tools/configuration/python/'
+```
+
+```
 python -m MimasV2.Config /dev/ttyACM0 design.bin
 ```
 
 Board documentation: https://numato.com/docs/mimas-v2-spartan-6-fpga-development-board-with-ddr-sdram/
-
-### Optional: faster Linux firmware (two serial ports)
-
-These replace the factory PIC firmware. Only needed if you want a dedicated programmer port plus FPGA UART at 115200 without using the mode switch.
-
-- Firmware + `programmer.py`: https://github.com/jimmo/numato-mimasv2-pic-firmware
-- Packaged loader (`mimasv2-prog`): https://github.com/toptensoftware/MimasV2-Loader
-
-```
-git clone https://github.com/jimmo/numato-mimasv2-pic-firmware.git
-cd numato-mimasv2-pic-firmware
-python3 -m venv venv && . venv/bin/activate
-pip install pyserial xmodem
-python3 programmer.py --filename /path/to/design.bin
-```
-
-Or:
-
-```
-git clone https://github.com/toptensoftware/MimasV2-Loader.git
-cd MimasV2-Loader
-sudo ./install.sh
-mimasv2-prog --filename design.bin
-```
-
-If `lsusb` shows `04d8:003c`, the FWUP jumper is fitted and the PIC is in HID bootloader mode. That is only for updating PIC firmware with `mphidflash`, not for loading an FPGA bitstream.
