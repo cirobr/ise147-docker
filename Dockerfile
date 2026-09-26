@@ -59,6 +59,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY Xilinx_ISE_DS_Lin_14.7_1015_1.tar /tmp/
 COPY install_config.txt /tmp/install_config.txt
 
+# After the COPY so the tarball layer stays cached.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends expect \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN set -eux; \
     mkdir -p /tmp/ise-src; \
     tar -xf /tmp/Xilinx_ISE_DS_Lin_14.7_1015_1.tar -C /tmp/ise-src; \
@@ -66,7 +71,7 @@ RUN set -eux; \
     echo "ISE_DIR=$ISE_DIR"; \
     ls -la "$ISE_DIR/bin/lin64"; \
     cd "$ISE_DIR/bin/lin64"; \
-    ./batchxsetup -batch /tmp/install_config.txt; \
+    expect -c 'set timeout -1; set accepts 0; spawn ./batchxsetup -batch /tmp/install_config.txt; expect { -re {Enter "Y" to accept} { incr accepts; if {$accepts > 5} { exit 1 }; send "Y\r"; exp_continue } eof }'; \
     test -x /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/ise; \
     rm -rf /tmp/Xilinx_ISE_DS_Lin_14.7_1015_1.tar /tmp/ise-src /tmp/install_config.txt
 
