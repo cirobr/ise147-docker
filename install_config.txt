@@ -1,26 +1,7 @@
-ENV TERM=xterm \
-    DEBIAN_FRONTEND=noninteractive
+destination_dir=/opt/Xilinx
+copy_preferences=N
 
-# extract only — keep this as its own layer so you can inspect
-RUN mkdir -p /tmp/ise-src \
- && tar -xf /tmp/Xilinx_ISE_DS_Lin_14.7_1015_1.tar -C /tmp/ise-src \
- && ls -la /tmp/ise-src
-
-# generate the official sample, then install
-RUN set -eux; \
-    ISE_DIR="$(find /tmp/ise-src -maxdepth 2 -type d -name 'Xilinx_ISE_DS_Lin_14.7*' | head -1)"; \
-    test -n "$ISE_DIR"; \
-    test -x "$ISE_DIR/bin/lin64/batchxsetup"; \
-    cd "$ISE_DIR/bin/lin64"; \
-    ./batchxsetup -samplebatchscript /tmp/ise_batch.txt; \
-    sed -i 's|^destination_dir=.*|destination_dir=/opt/Xilinx|' /tmp/ise_batch.txt; \
-    # WebPACK block is commented in the sample; uncomment it.
-    # If you want System Edition instead, uncomment that block and leave WebPACK commented.
-    python3 - <<'PY'
-from pathlib import Path
-p = Path("/tmp/ise_batch.txt")
-text = p.read_text(errors="replace")
-# show the file in the build log so you can see the exact tokens
-print(text)
-p.write_text(text)
-PY
+package=ISE WebPACK
+application=Acquire or Manage a License Key::0
+application=Install Cable Drivers::0
+application=Enable WebTalk to send software, IP and device usage statistics to Xilinx (Always enabled for WebPACK license)::0
