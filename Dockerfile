@@ -3,7 +3,8 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
-    TZ=America/Sao_Paulo
+    TZ=America/Sao_Paulo \
+    TERM=xterm
 
 # universe is required for libncurses5 / libtinfo5 on Jammy
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -54,12 +55,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && ln -sf /usr/bin/make /usr/bin/gmake \
     && rm -rf /var/lib/apt/lists/*
 
-# --- installer ---
-# Option A: COPY the tarball (simple, large build context)
+# Tarball is not in git. Place Xilinx_ISE_DS_Lin_14.7_1015_1.tar next to this file before building.
 COPY Xilinx_ISE_DS_Lin_14.7_1015_1.tar /tmp/
 COPY install_config.txt /tmp/install_config.txt
-
-ENV TERM=xterm
 
 RUN set -eux; \
     mkdir -p /tmp/ise-src; \
