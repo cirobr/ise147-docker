@@ -1,6 +1,6 @@
 # Xilinx ISE 14.7 on Docker
 
-Builds an image of the Xilinx ISE 14.7 Project Navigator on top of Ubuntu 22.04.
+Builds an image for the Xilinx ISE 14.7 Project Navigator on top of Ubuntu 22.04.
 
 Instructions for programming a MIMAS V2 Spartan6 FPGA board, which requires ISE 14.7, are available at the end of this file.
 
