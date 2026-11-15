@@ -34,7 +34,7 @@ REMARK: This step can take 30+ minutes. Do not interrupt it.
 
 ## Execution
 
-Prior to first execution, execute the below command just once to allocate your own license, which must reside in your host at `~/.Xilinx/Xilinx.lic`.
+Prior to first execution, execute the below commands just once, to allocate your own license, which must reside in your host at `~/.Xilinx/Xilinx.lic`.
 
 ```bash
 docker run --rm -it \
@@ -42,6 +42,10 @@ docker run --rm -it \
   -v "$HOME/.Xilinx:/root/.Xilinx:ro" \
   -e XILINXD_LICENSE_FILE=/root/.Xilinx/Xilinx.lic \
   ise:14.7-u2204 bash
+```
+
+```bash
+exit
 ```
 
 Then, project navigator can be executed with the below command. Alternatively, you can execute the `ise.sh` shell.
