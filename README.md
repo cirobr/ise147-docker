@@ -25,7 +25,7 @@ https://www.amd.com/pt/support/downloads/adaptive-socs-and-fpgas/legacy-ise/v201
 
 ## Build commands
 
-```
+```bash
 docker pull ubuntu:22.04
 docker build --progress=plain -t ise:14.7-u2204 .
 ```
@@ -34,9 +34,9 @@ The extract + `batchxsetup` layer can take 30+ minutes. Do not interrupt it.
 
 ## Execution
 
-CLI tools (`xst`, `ngdbuild`, `map`, `par`, `bitgen`, `xtclsh`):
+Prior to first execution, execute the below command just once to allocate your own license, which must reside in your host at `~/.Xilinx/Xilinx.lic`.
 
-```
+```bash
 docker run --rm -it \
   -v "$PWD:/work" \
   -v "$HOME/.Xilinx:/root/.Xilinx:ro" \
@@ -44,9 +44,9 @@ docker run --rm -it \
   ise:14.7-u2204 bash
 ```
 
-GUI (Project Navigator) on a Linux host with X11:
+Then, project navigator can be executed with the below command. Alternatively, you can execute the `ise.sh` shell.
 
-```
+```bash
 xhost +local:docker
 docker run --rm -it \
   -e DISPLAY="$DISPLAY" \
@@ -64,7 +64,7 @@ Generate a Mimas V2 bitstream as `.bin` (not `.bit`):
 - ISE GUI: Generate Programming File → properties → enable **Create Binary Configuration File**
 - CLI, after place-and-route:
 
-```
+```bash
 bitgen -w -g Binary:Yes design.ncd
 ```
 
@@ -74,13 +74,13 @@ The board is programmed over USB-CDC into the SPI flash. Use the `.bin` produced
 
 Add your user to `dialout`, then log out and back in:
 
-```
+```bash
 sudo usermod -aG dialout "$USER"
 ```
 
 Confirm the board:
 
-```
+```bash
 lsusb
 ls /dev/ttyACM*
 ```
@@ -92,11 +92,11 @@ Stock Numato firmware usually appears as `2a19:1002` and `/dev/ttyACM0`. Set the
 Repo: https://github.com/numato/samplecode  
 Path: `FPGA/MimasV2/tools/configuration/python/`
 
-```
+```bash
 pip install 'git+https://github.com/numato/samplecode/#egg=MimasV2&subdirectory=FPGA/MimasV2/tools/configuration/python/'
 ```
 
-```
+```bash
 python -m MimasV2.Config /dev/ttyACM0 design.bin
 ```
 
