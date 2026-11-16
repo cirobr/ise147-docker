@@ -2,9 +2,9 @@
 
 Builds an image for the Xilinx ISE 14.7 Project Navigator on top of Ubuntu 22.04.
 
-Instructions for programming a MIMAS V2 Spartan6 FPGA board, which requires ISE 14.7, are available at the end of this file.
+Instructions for programming a MIMAS V2 Spartan6 FPGA board in Linux environment are also shown here.
 
-**IMPORTANT**: the built image contains AMD/Xilinx software and MUST NOT be published or shared.
+**IMPORTANT**: the built image contains AMD/Xilinx proprietary software and MUST NOT be published or shared.
 
 ## Folder structure
 
@@ -63,7 +63,7 @@ docker run --rm -it \
   ise:14.7-u2204 ise
 ```
 
-Generate a Mimas V2 bitstream as `.bin` (not `.bit`):
+## Generate a Numato Mimas V2 bitstream as `.bin` (Linux)
 
 - ISE GUI: Generate Programming File → properties → enable **Create Binary Configuration File**
 - CLI, after place-and-route:
@@ -72,7 +72,7 @@ Generate a Mimas V2 bitstream as `.bin` (not `.bit`):
 bitgen -w -g Binary:Yes design.ncd
 ```
 
-## Programming the Numato Mimas V2 from Linux
+## Programming the Numato Mimas V2 (Linux)
 
 The board is programmed over USB-CDC into the SPI flash. Use the `.bin` produced by ISE. Programming is simpler on the **host** than inside the ISE container.
 
@@ -89,9 +89,9 @@ lsusb
 ls /dev/ttyACM*
 ```
 
-Stock Numato firmware usually appears as `2a19:1002` and `/dev/ttyACM0`. Set the board CFG switch to USB/config mode before flashing.
+Numato firmware usually appears as `2a19:1002` and `/dev/ttyACM0`. Set the board CFG switch to USB/config mode before flashing.
 
-### Recommended: official Numato Python tool
+## Flashing tool for the Numato Mimas V2 (Linux)
 
 Repo: https://github.com/numato/samplecode  
 Path: `FPGA/MimasV2/tools/configuration/python/`
