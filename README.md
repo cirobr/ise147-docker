@@ -103,4 +103,6 @@ pip install 'git+https://github.com/numato/samplecode/#egg=MimasV2&subdirectory=
 python -m MimasV2.Config /dev/ttyACM0 design.bin
 ```
 
-Board documentation: https://numato.com/docs/mimas-v2-spartan-6-fpga-development-board-with-ddr-sdram/
+## Board documentation
+
+https://numato.com/docs/mimas-v2-spartan-6-fpga-development-board-with-ddr-sdram/
