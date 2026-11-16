@@ -65,8 +65,7 @@ docker run --rm -it \
 
 ## Generate a Numato Mimas V2 bitstream as `.bin` (Linux)
 
-- ISE GUI: Generate Programming File → properties → enable **Create Binary Configuration File**
-- CLI, after place-and-route:
+After finalizing the project in the Xilinx ISE 14.7, execute the below command (it assumes your design file is `design.ncd`, change it accordingly).
 
 ```bash
 bitgen -w -g Binary:Yes design.ncd
